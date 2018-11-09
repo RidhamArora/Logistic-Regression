@@ -91,3 +91,16 @@ def logistic(x,Y):
 
 final_loss,final_acc,final_w,final_b = logistic(x,Y)
 plt.plot(final_loss)
+#final_w = [ 1.56974928,-1.79457347] --- From sklearn
+#final_b = [ 0.22567697]  --- From Sklearn
+c=np.linspace(-2,10,10)
+a=-(final_w[0]*c+final_b)/final_w[1]
+for i in range(99):
+    if Y[i]==1:
+        plt.scatter(x[i][0],x[i][1],marker='*',color='Blue')
+    else:
+        plt.scatter(x[i][0],x[i][1],marker='^',color='Orange')
+plt.plot(c,a,color='black')
+plt.show()
+plt.plot(final_loss)
+plt.show()

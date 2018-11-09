@@ -64,10 +64,29 @@ def get_grads(Y,x,w,b):
     
     return [grad_w,grad_b]
 
+def batch_gradient(Y,x,w,b,batch_size=1):
+    
+    grad_w = np.zeros(w.shape)
+    grad_b = 0.0
+    m=x.shape[0]
+    indices=np.arange(m)
+    np.random.shuffle(indices)
+    indices=indices[:batch_size]
+    for i in indices:
+        hx = hypothesis(x[i],w,b)
+        
+        grad_w += (Y[i]-hx)*x[i]
+        grad_b += (Y[i]-hx)
+        
+    grad_w /= m
+    grad_b /= m
+    
+    return [grad_w,grad_b]
+
 def grad_descent(x,Y,w,b,learning_rate=0.1):
     
     err = error(Y,x,w,b)
-    [grad_w,grad_b] = get_grads(Y,x,w,b)
+    [grad_w,grad_b] = batch_gradient(Y,x,w,b,batch_size=10)
     
     w = w + learning_rate*grad_w
     b = b + learning_rate*grad_b
@@ -90,7 +109,6 @@ def logistic(x,Y):
     return loss,acc,w,b
 
 final_loss,final_acc,final_w,final_b = logistic(x,Y)
-plt.plot(final_loss)
 #final_w = [ 1.56974928,-1.79457347] --- From sklearn
 #final_b = [ 0.22567697]  --- From Sklearn
 c=np.linspace(-2,10,10)

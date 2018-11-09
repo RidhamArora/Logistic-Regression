@@ -86,7 +86,7 @@ def batch_gradient(Y,x,w,b,batch_size=1):
 def grad_descent(x,Y,w,b,learning_rate=0.1):
     
     err = error(Y,x,w,b)
-    [grad_w,grad_b] = batch_gradient(Y,x,w,b,batch_size=10)
+    [grad_w,grad_b] = batch_gradient(Y,x,w,b,batch_size=50)
     
     w = w + learning_rate*grad_w
     b = b + learning_rate*grad_b
@@ -118,7 +118,13 @@ for i in range(99):
         plt.scatter(x[i][0],x[i][1],marker='*',color='Blue')
     else:
         plt.scatter(x[i][0],x[i][1],marker='^',color='Orange')
+cnt=0
+for i in range(99):
+    if (hypothesis(x[i],final_w,final_b)>0.5 and Y[i]==1) or (hypothesis(x[i],final_w,final_b)<=0.5 and Y[i]==0):
+        cnt=cnt+1
+acc = (cnt*1.0)/(x.shape[0]*1.0)
 plt.plot(c,a,color='black')
 plt.show()
 plt.plot(final_loss)
 plt.show()
+print("Accuracy is %f percent"%(acc*100))
